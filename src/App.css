@@ -1,3 +1,10 @@
 .App {
-  text-align: center;
+  background-color: #465461;
+}
+nav {
+  cursor: pointer;
+}
+a {
+  text-decoration: none;
+  color: inherit;
 }
