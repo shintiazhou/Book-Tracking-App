@@ -15,6 +15,13 @@ const theme = createTheme({
       main: "#ecf3f4",
     },
   },
+  typography: {
+    fontFamily: '"Montserrat", sans-serif',
+    h1: {
+      fontWeight: "700",
+      fontSize: "1.7rem"
+    }
+  }
 });
 
 ReactDOM.render(

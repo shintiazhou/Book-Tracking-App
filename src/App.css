@@ -1,6 +1,11 @@
 .App {
   background-color: #465461;
+  color: white;
+  padding: 90px 8%;
+  margin: 0 auto;
+  font-size: 12px;
 }
+
 nav {
   cursor: pointer;
 }

@@ -11,7 +11,7 @@ export default function MenuAppBar() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="primary">
+      <AppBar position="fixed" color="primary">
         <Toolbar>
           <Link to="/" className={classes.title}>
             HOME
@@ -21,7 +21,7 @@ export default function MenuAppBar() {
               <LibraryBooksIcon className={classes.library} />
             </IconButton>
           </Link>
-          <Link to="/log-in">LOG IN</Link>
+          <Link to="/login">LOG IN</Link>
         </Toolbar>
       </AppBar>
     </div>
