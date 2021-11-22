@@ -48,9 +48,9 @@ const Container = styled("div")(({ theme }) => ({
   maxWidth: "670px",
   marginLeft: "auto",
   marginRight: "auto",
-
   ".carousel": {
     display: "flex",
+    userSelect: "none",
   },
 }));
 

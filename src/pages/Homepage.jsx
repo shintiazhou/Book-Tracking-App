@@ -14,6 +14,8 @@ const Homepage = () => {
   );
 };
 
+// -------------------------- styles-----------------------------
+
 const Container = styled("div")(({ theme }) => ({
   ".header": {
     marginBottom: "20px",

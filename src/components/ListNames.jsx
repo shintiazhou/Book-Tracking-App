@@ -8,21 +8,20 @@ import axiosInstance from "../config/api";
 function ListNames() {
   const [data, setData] = useState(null);
 
-  const getListNames = async () => {
-    try {
-      await axiosInstance()
-        .get("names.json")
-        .then((res) => setData(res.data.results.filter((v, i) => i < 10)));
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
-
   useEffect(() => {
+    //get list name each genre/type of books
+    const getListNames = async () => {
+      try {
+        await axiosInstance()
+          .get("names.json")
+          .then((res) => setData(res.data.results.filter((v, i) => i < 10)));
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
     getListNames();
   }, []);
 
-  console.log(data);
   return (
     <Container>
       {data &&
@@ -31,15 +30,15 @@ function ListNames() {
             <div key={i}>
               <Typography variant="h2" className="listName">
                 {list.display_name}
-                <ListItems list_name_encoded={list.list_name_encoded} />
               </Typography>
+              <ListItems list_name_encoded={list.list_name_encoded} />
             </div>
           );
         })}
     </Container>
   );
 }
-
+// -------------------------- styles-----------------------------
 const Container = styled("div")(({ theme }) => ({
   ".listName": {
     padding: "20px 0",
