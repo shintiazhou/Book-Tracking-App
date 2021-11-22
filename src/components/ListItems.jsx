@@ -38,7 +38,7 @@ function ListItems(props) {
   );
 }
 // -------------------------- styles-----------------------------
-const Container = styled("div")(({}) => ({
+const Container = styled("div")(({ theme }) => ({
   position: "relative",
   borderBottom: "1px solid rgba(255,255,255,.2)",
   paddingBottom: "20px",
