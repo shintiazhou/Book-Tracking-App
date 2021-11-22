@@ -19,10 +19,15 @@ function BookItems(props) {
     </Container>
   );
 }
+// -------------------------- styles-----------------------------
 const Container = styled("div")(({ theme }) => ({
   overflow: "hidden",
   position: "relative",
   minWidth: "50%",
   marginRight: "20px",
+  ".image": {
+    minHeight: "105px",
+  },
 }));
+
 export default BookItems;

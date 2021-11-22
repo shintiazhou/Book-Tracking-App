@@ -11,13 +11,10 @@ function ListNames() {
   useEffect(() => {
     //get list name each genre/type of books
     const getListNames = async () => {
-      try {
-        await axiosInstance()
-          .get("names.json")
-          .then((res) => setData(res.data.results.filter((v, i) => i < 10)));
-      } catch (err) {
-        console.log(err.message);
-      }
+      await axiosInstance()
+        .get("names.json")
+        .then((res) => setData(res.data.results.filter((v, i) => i < 8)))
+        .catch((err) => console.log(err.message));
     };
     getListNames();
   }, []);
