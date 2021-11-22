@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../config/api";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
 
 function ListNames() {
-  const classes = useStyles();
   const [data, setData] = useState(null);
 
   const getListNames = async () => {
@@ -23,24 +22,24 @@ function ListNames() {
 
   console.log(data);
   return (
-    <div>
+    <Container>
       {data &&
         data.map((list, i) => {
           return (
             <div key={i}>
-              <Typography variant="h2" className={classes.ListName}>
+              <Typography variant="h2" className="listName">
                 {list.display_name}
               </Typography>
             </div>
           );
         })}
-    </div>
+    </Container>
   );
 }
 
-const useStyles = makeStyles((theme) => ({
-  ListName: {
-    padding: "20px 0 ",
+const Container = styled("div")(({ theme }) => ({
+  ".listName": {
+    padding: "20px 0",
   },
 }));
 

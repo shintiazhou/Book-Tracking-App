@@ -1,44 +1,43 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
+import { styled } from "@mui/material/styles";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
-import IconButton from "@material-ui/core/IconButton";
+import IconButton from "@mui/material/IconButton";
 import { Link } from "react-router-dom";
 
 export default function MenuAppBar() {
-  const classes = useStyles();
-
   return (
-    <div className={classes.root}>
+    <Container>
       <AppBar position="fixed" color="primary">
         <Toolbar>
-          <Link to="/" className={classes.title}>
+          <Link to="/" className="title">
             HOME
           </Link>
           <Link to="/library">
             <IconButton>
-              <LibraryBooksIcon className={classes.library} />
+              <LibraryBooksIcon className="library" />
             </IconButton>
           </Link>
           <Link to="/login">LOG IN</Link>
         </Toolbar>
       </AppBar>
-    </div>
+    </Container>
   );
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
+const Container = styled("div")(({ theme }) => ({
+  flexGrow: 1,
+  ".listName": {
+    padding: "20px 0",
   },
-  menuButton: {
+  ".menuButton": {
     marginRight: theme.spacing(2),
   },
-  title: {
+  ".title": {
     flexGrow: 1,
   },
-  library: {
+  ".library": {
     color: "white",
     margin: "0 10px",
     justifyContent: "flex-end",

@@ -1,22 +1,21 @@
 import React from "react";
-import Typography from "@material-ui/core/Typography";
+import Typography from "@mui/material/Typography";
 import ListNames from "../components/ListNames";
-import { makeStyles } from "@material-ui/core/styles";
+import { styled } from "@mui/material/styles";
 
 const Homepage = () => {
-  const classes = useStyles();
   return (
-    <div>
-      <Typography variant="h1" className={classes.header}>
+    <Container>
+      <Typography variant="h1" className="header">
         The New York Times Best Sellers
       </Typography>
       <ListNames />
-    </div>
+    </Container>
   );
 };
 
-const useStyles = makeStyles((theme) => ({
-  header: {
+const Container = styled("div")(({ theme }) => ({
+  ".header": {
     marginBottom: "20px",
     padding: "20px 0 ",
     borderBottom: "2px solid white",
