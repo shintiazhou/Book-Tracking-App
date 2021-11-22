@@ -50,7 +50,6 @@ const Container = styled("div")(({ theme }) => ({
   },
   ".viewport": {
     "& is-draggable": {
-      cursor: "move",
       cursor: "grab",
     },
     "& is-dragging": {
