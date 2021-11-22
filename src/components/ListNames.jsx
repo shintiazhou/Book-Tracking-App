@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axiosInstance from "../config/api";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
+import ListItems from "./ListItems";
+
+import axiosInstance from "../config/api";
 
 function ListNames() {
   const [data, setData] = useState(null);
@@ -10,7 +12,7 @@ function ListNames() {
     try {
       await axiosInstance()
         .get("names.json")
-        .then((res) => setData(res.data.results.filter((v, i) => i < 27)));
+        .then((res) => setData(res.data.results.filter((v, i) => i < 10)));
     } catch (err) {
       console.log(err.message);
     }
@@ -18,7 +20,7 @@ function ListNames() {
 
   useEffect(() => {
     getListNames();
-  }, [data]);
+  }, []);
 
   console.log(data);
   return (
@@ -29,6 +31,7 @@ function ListNames() {
             <div key={i}>
               <Typography variant="h2" className="listName">
                 {list.display_name}
+                <ListItems list_name_encoded={list.list_name_encoded} />
               </Typography>
             </div>
           );

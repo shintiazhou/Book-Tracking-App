@@ -2,7 +2,7 @@ import React from "react";
 import { styled } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import IconButton from "@mui/material/IconButton";
 import { Link } from "react-router-dom";
 

@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom"
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
@@ -24,6 +24,10 @@ const theme = createTheme({
     h2: {
       fontWeight: "600",
       fontSize: "1rem"
+    },
+    h3: {
+      fontWeight: "500",
+      fontSize: ".8rem"
     }
   }
 });
