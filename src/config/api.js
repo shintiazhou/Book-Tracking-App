@@ -1,10 +1,12 @@
 import axios from 'axios';
 
-const axiosInstance = axios.create({
-    baseURL: process.env.NYT_API,
-    params: {
-        'api-key': process.env.NYT_API_KEY
-    }
-})
+const axiosInstance = () => {
+    return axios.create({
+        baseURL: process.env.REACT_APP_NYT_API,
+        params: {
+            'api-key': process.env.REACT_APP_NYT_API_KEY,
+        },
+    });
+};
 
 export default axiosInstance

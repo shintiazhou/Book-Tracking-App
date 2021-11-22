@@ -1,24 +1,26 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Typography from "@material-ui/core/Typography";
+import ListNames from "../components/ListNames";
 import { makeStyles } from "@material-ui/core/styles";
-import axiosInstance from "../config/api";
 
 const Homepage = () => {
   const classes = useStyles();
-
-  useEffect(() => {
-    axiosInstance.get("best-sellers/history.json").then((response) => {
-      console.log(response.data);
-    });
-  }, []);
-
   return (
     <div>
-      <Typography variant="h1">The New York Times Best Sellers</Typography>
+      <Typography variant="h1" className={classes.header}>
+        The New York Times Best Sellers
+      </Typography>
+      <ListNames />
     </div>
   );
 };
 
-const useStyles = makeStyles((theme) => ({}));
+const useStyles = makeStyles((theme) => ({
+  header: {
+    marginBottom: "20px",
+    padding: "20px 0 ",
+    borderBottom: "2px solid white",
+  },
+}));
 
 export default Homepage;
