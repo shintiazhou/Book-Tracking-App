@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from "react";
-import Typography from "@mui/material/Typography";
 import axiosInstance from "../config/api";
+import BookItems from "./BookItems";
+import useEmblaCarousel from "embla-carousel-react";
+import { styled } from "@mui/material/styles";
 
 function ListItems(props) {
   const [data, setData] = useState(null);
+  const [emblaRef] = useEmblaCarousel();
 
-  console.log(data);
+  const [viewportRef] = useEmblaCarousel({
+    dragFree: true,
+    containScroll: "trimSnaps",
+  });
+
   useEffect(() => {
+    //get list items based on names/type
     const getListItems = async () => {
       try {
         await axiosInstance()
@@ -19,18 +27,31 @@ function ListItems(props) {
     getListItems();
   }, [props.list_name_encoded]);
 
+  console.log(data);
+
   return (
-    <div>
-      {data &&
-        data.map((bookList, i) => {
-          return (
-            <div>
-              <Typography variant="h3">{bookList.title}</Typography>
-            </div>
-          );
-        })}
-    </div>
+    <Container>
+      <div className="viewport" ref={viewportRef}>
+        <div className="carousel">
+          {data &&
+            data.map((bookList, i) => {
+              return <BookItems key={i} object={bookList} />;
+            })}
+        </div>
+      </div>
+    </Container>
   );
 }
+
+const Container = styled("div")(({ theme }) => ({
+  position: "relative",
+  maxWidth: "670px",
+  marginLeft: "auto",
+  marginRight: "auto",
+
+  ".carousel": {
+    display: "flex",
+  },
+}));
 
 export default ListItems;
