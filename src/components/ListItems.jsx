@@ -6,7 +6,6 @@ import { styled } from "@mui/material/styles";
 
 function ListItems(props) {
   const [data, setData] = useState(null);
-  const [emblaRef] = useEmblaCarousel();
 
   const [viewportRef] = useEmblaCarousel({
     dragFree: true,
