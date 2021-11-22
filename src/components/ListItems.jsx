@@ -48,6 +48,15 @@ const Container = styled("div")(({ theme }) => ({
     display: "flex",
     overflowX: "visible",
   },
+  ".viewport": {
+    "& is-draggable": {
+      cursor: "move",
+      cursor: "grab",
+    },
+    "& is-dragging": {
+      cursor: "grabbing",
+    },
+  },
 }));
 
 export default ListItems;
