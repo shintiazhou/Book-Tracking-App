@@ -26,10 +26,19 @@ const theme = createTheme({
       fontSize: "1rem"
     },
     h3: {
-      fontWeight: "500",
-      fontSize: ".8rem"
+      fontWeight: "600",
+      fontSize: "1rem"
     }
-  }
+  },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 481,
+      md: 769,
+      lg: 1280,
+      xl: 1536
+    },
+  },
 });
 
 ReactDOM.render(

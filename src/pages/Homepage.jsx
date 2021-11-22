@@ -17,6 +17,10 @@ const Homepage = () => {
 // -------------------------- styles-----------------------------
 
 const Container = styled("div")(({ theme }) => ({
+  overflow: "hidden",
+  [theme.breakpoints.up("xl")]: {
+    margin: "0 100px",
+  },
   ".header": {
     marginBottom: "20px",
     padding: "20px 0 ",

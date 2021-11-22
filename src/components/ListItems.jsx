@@ -6,7 +6,6 @@ import { styled } from "@mui/material/styles";
 
 function ListItems(props) {
   const [data, setData] = useState(null);
-
   const [viewportRef] = useEmblaCarousel({
     dragFree: true,
     containScroll: "trimSnaps",
@@ -41,20 +40,13 @@ function ListItems(props) {
 // -------------------------- styles-----------------------------
 const Container = styled("div")(({ theme }) => ({
   position: "relative",
-  maxWidth: "670px",
-  marginLeft: "auto",
-  marginRight: "auto",
+  borderBottom: "1px solid rgba(255,255,255,.2)",
+  paddingBottom: "20px",
+  width: "100%",
   ".carousel": {
     display: "flex",
     overflowX: "visible",
-  },
-  ".viewport": {
-    "& is-draggable": {
-      cursor: "grab",
-    },
-    "& is-dragging": {
-      cursor: "grabbing",
-    },
+    userSelect: "none",
   },
 }));
 

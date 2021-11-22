@@ -38,7 +38,7 @@ function ListNames() {
 // -------------------------- styles-----------------------------
 const Container = styled("div")(({ theme }) => ({
   ".listName": {
-    padding: "20px 0",
+    padding: "20px 0 10px 0",
   },
 }));
 
