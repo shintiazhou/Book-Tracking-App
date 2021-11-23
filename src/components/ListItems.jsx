@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "../config/api";
 import BookItem from "./BookItem";
 import useEmblaCarousel from "embla-carousel-react";
+import CircularProgress from "@mui/material/CircularProgress";
 import { styled } from "@mui/material/styles";
 
 function ListItems(props) {
@@ -19,6 +20,7 @@ function ListItems(props) {
         .then((res) => setData(res.data.results.books))
         .catch((err) => console.log(err.message));
     };
+
     getListItems();
   }, [props.list_name_encoded]);
 
@@ -26,12 +28,15 @@ function ListItems(props) {
 
   return (
     <Container>
-      <div className="viewport" ref={viewportRef}>
+      <div className="embla__viewport" ref={viewportRef}>
         <div className="carousel">
-          {data &&
+          {data ? (
             data.map((bookList, i) => {
               return <BookItem key={i} object={bookList} />;
-            })}
+            })
+          ) : (
+            <CircularProgress color="secondary" />
+          )}
         </div>
       </div>
     </Container>
@@ -43,10 +48,12 @@ const Container = styled("div")(({ theme }) => ({
   borderBottom: "1px solid rgba(255,255,255,.2)",
   paddingBottom: "20px",
   width: "100%",
+  overflow: "hidden",
+
   ".carousel": {
     display: "flex",
-    overflowX: "visible",
     userSelect: "none",
+    marginLeft: "-10px",
   },
 }));
 

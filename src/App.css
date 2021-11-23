@@ -6,7 +6,18 @@
   font-size: 12px;
   overflow-x: hidden;
 }
+.embla__viewport {
+  overflow: hidden;
+  width: 100%;
+}
+.embla__viewport.is-draggable {
+  cursor: move;
+  cursor: grab;
+}
 
+.embla__viewport.is-dragging {
+  cursor: grabbing;
+}
 nav {
   cursor: pointer;
 }

@@ -1,44 +1,50 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
+import EmblaCarousel from "embla-carousel-react";
+
+const embla = EmblaCarousel(emblaNode);
 
 function BookItems(props) {
+  useEffect(() => {
+    if (embla && embla.slideNodes().length !== slides.length) {
+      embla.reInit();
+    }
+  }, [embla, props.object]);
+
   return (
     <Container>
-      <img
-        className="image"
-        src={props.object.book_image}
-        alt={props.object.title}
-      />
-      <div className="caption">
-        <Typography variant="h3">{props.object.title}</Typography>
-        <Typography variant="span">{props.object.author}</Typography>
+      <div className="container">
+        <div className="inner">
+          <img
+            height="80%"
+            width="100%"
+            src={props.object.book_image}
+            alt={props.object.title}
+          />
+          <div className="caption">
+            <Typography variant="h3">{props.object.title}</Typography>
+            <Typography variant="span">{props.object.author}</Typography>
+          </div>
+        </div>
       </div>
     </Container>
   );
 }
 // -------------------------- styles-----------------------------
 const Container = styled("div")(({ theme }) => ({
-  overflow: "hidden",
-  minWidth: "50%",
-  height: "100%",
+  position: "relative",
   padding: "5px",
+  minWidth: "50%",
   marginRight: "20px",
-  ".image": {
-    width: "100%",
-    borderRadius: "10%",
-    margin: "10px -6px",
+  ".inner": {
+    position: "relative",
+    overflow: "hidden",
+    height: "350px",
   },
   ".caption": {
-    bottom: 0,
-    h3: {
-      marginBottom: "4px",
-    },
-    span: {
-      opacity: "50%",
-    },
+    margin: "10px 0",
   },
-
   [theme.breakpoints.up("sm")]: {
     minWidth: "30%",
   },

@@ -2,26 +2,33 @@ import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import ListItems from "./ListItems";
-
+import CircularProgress from "@mui/material/CircularProgress";
 import axiosInstance from "../config/api";
 
 function ListNames() {
   const [data, setData] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     //get list name each genre/type of books
     const getListNames = async () => {
       await axiosInstance()
         .get("names.json")
-        .then((res) => setData(res.data.results.filter((v, i) => i < 8)))
-        .catch((err) => console.log(err.message));
+        .then((res) => {
+          setData(res.data.results.filter((v, i) => i < 8));
+          setErrorMessage(null);
+        })
+        .catch((err) => {
+          console.log(err.message);
+          setErrorMessage(err.message);
+        });
     };
     getListNames();
   }, []);
 
   return (
     <Container>
-      {data &&
+      {data ? (
         data.map((list, i) => {
           return (
             <div key={i}>
@@ -31,7 +38,14 @@ function ListNames() {
               <ListItems list_name_encoded={list.list_name_encoded} />
             </div>
           );
-        })}
+        })
+      ) : errorMessage ? (
+        <Typography variant="h3">
+          {errorMessage} please reload after a while...
+        </Typography>
+      ) : (
+        <CircularProgress color="secondary" />
+      )}
     </Container>
   );
 }
