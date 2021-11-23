@@ -59,7 +59,6 @@ const Container = styled("div")(({ theme }) => ({
   paddingBottom: "20px",
   width: "100%",
   overflow: "hidden",
-
   ".carousel": {
     display: "flex",
     justifyContent: "space-between",

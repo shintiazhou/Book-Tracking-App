@@ -56,7 +56,6 @@ const Container = styled("div")(({ theme }) => ({
   },
   ".error": {
     color: "#ff893b",
-    height: "120vw",
   },
 }));
 
