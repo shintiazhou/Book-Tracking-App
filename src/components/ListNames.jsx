@@ -40,7 +40,7 @@ function ListNames() {
           );
         })
       ) : errorMessage ? (
-        <Typography variant="h3">
+        <Typography variant="h3" className="error">
           {errorMessage} please reload after a while...
         </Typography>
       ) : (
@@ -53,6 +53,10 @@ function ListNames() {
 const Container = styled("div")(({ theme }) => ({
   ".listName": {
     padding: "20px 0 10px 0",
+  },
+  ".error": {
+    color: "#ff893b",
+    height: "120vw",
   },
 }));
 

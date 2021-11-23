@@ -4,9 +4,11 @@ import BookItem from "./BookItem";
 import useEmblaCarousel from "embla-carousel-react";
 import CircularProgress from "@mui/material/CircularProgress";
 import { styled } from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
 
 function ListItems(props) {
   const [data, setData] = useState(null);
+  const [isError, setIsError] = useState(false);
   const [viewportRef] = useEmblaCarousel({
     dragFree: true,
     containScroll: "trimSnaps",
@@ -20,20 +22,28 @@ function ListItems(props) {
         .then((res) => setData(res.data.results.books))
         .catch((err) => console.log(err.message));
     };
-
+    data && setIsError(false);
     getListItems();
-  }, [props.list_name_encoded]);
+  }, [data, props.list_name_encoded]);
 
   console.log(data);
 
+  setTimeout(() => {
+    !data && setIsError(true);
+  }, 3000);
+
   return (
     <Container>
-      <div className="embla__viewport" ref={viewportRef}>
+      <div className="embla__viewport" ref={data ? viewportRef : null}>
         <div className="carousel">
           {data ? (
             data.map((bookList, i) => {
               return <BookItem key={i} object={bookList} />;
             })
+          ) : isError ? (
+            <Typography variant="h3" className="error">
+              failed to load, too many request please try again after a while...
+            </Typography>
           ) : (
             <CircularProgress color="secondary" />
           )}
@@ -52,8 +62,12 @@ const Container = styled("div")(({ theme }) => ({
 
   ".carousel": {
     display: "flex",
+    justifyContent: "space-between",
     userSelect: "none",
-    marginLeft: "-10px",
+    paddingRight: "-25px",
+  },
+  ".error": {
+    color: "#ff893b",
   },
 }));
 
