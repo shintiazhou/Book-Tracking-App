@@ -1,15 +1,30 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import Typography from "@mui/material/Typography";
 import ListNames from "../components/ListNames";
 import { styled } from "@mui/material/styles";
+import BookDetails from "../components/BookDetails";
+import Backdrop from "@mui/material/Backdrop";
+import { BookItemContext } from "../context/BookItemContext";
 
 const Homepage = () => {
+  const { openBackdrop, setOpenBackdrop } = useContext(BookItemContext);
+  const handleClose = (e) => {
+    e.target.className.includes("MuiBackdrop-root") && setOpenBackdrop(false);
+  };
+
   return (
     <Container>
       <Typography variant="h1" className="header">
         The New York Times Best Sellers
       </Typography>
       <ListNames />
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openBackdrop}
+        onClick={handleClose}
+      >
+        <BookDetails />
+      </Backdrop>
     </Container>
   );
 };

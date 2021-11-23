@@ -1,20 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
-import BookDetails from "./BookDetails";
+import { BookItemContext } from "../context/BookItemContext";
+
 function BookItems(props) {
-  const [open, setOpen] = React.useState(false);
-  const handleClose = () => {
-    setOpen(false);
+  const { setOpenBackdrop, openBackdrop } = useContext(BookItemContext);
+
+  const handleClick = () => {
+    setOpenBackdrop(true);
   };
-  const handleToggle = () => {
-    setOpen(!open);
-  };
+
   return (
     <Container>
-      <div className="inner" onClick={handleToggle}>
+      <div className="inner" onClick={handleClick}>
         <div className="imageContainer">
           <div className="overlay"></div>
           <img
@@ -29,9 +27,6 @@ function BookItems(props) {
           <Typography variant="span">{props.object.author}</Typography>
         </div>
       </div>
-      <Backdrop sx={{ color: "#fff" }} open={open} onClick={handleClose}>
-        <BookDetails />
-      </Backdrop>
     </Container>
   );
 }

@@ -6,7 +6,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import axiosInstance from "../config/api";
 
 function ListNames() {
-  const [data, setData] = useState(null);
+  const [ListNames, setListNames] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
@@ -15,7 +15,7 @@ function ListNames() {
       await axiosInstance()
         .get("names.json")
         .then((res) => {
-          setData(res.data.results.filter((v, i) => i < 8));
+          setListNames(res.data.results.filter((v, i) => i < 8));
           setErrorMessage(null);
         })
         .catch((err) => {
@@ -25,11 +25,10 @@ function ListNames() {
     };
     getListNames();
   }, []);
-
   return (
     <Container>
-      {data ? (
-        data.map((list, i) => {
+      {ListNames ? (
+        ListNames.map((list, i) => {
           return (
             <div key={i}>
               <Typography variant="h2" className="listName">
