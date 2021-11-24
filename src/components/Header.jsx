@@ -20,7 +20,7 @@ export default function MenuAppBar() {
               <LibraryBooksIcon className="library" />
             </IconButton>
           </Link>
-          <Link to="/login">LOG IN</Link>
+          <Link to="/signin">SIGN IN</Link>
         </Toolbar>
       </AppBar>
     </Container>

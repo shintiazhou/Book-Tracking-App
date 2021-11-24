@@ -1,16 +1,24 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './App.css';
 import Header from "./components/Header"
 import Library from "./pages/Library"
-import Login from "./pages/Login"
+import SignIn from "./pages/SignIn"
 import Homepage from "./pages/Homepage"
 import { Routes, Route } from "react-router-dom"
 import { ItemBackdropContext } from "./context/ItemBackdropContext"
 import { BookDetailsContext } from "./context/BookDetailsContext"
 
-function App() {
+function App({ contract, currentUser, nearConfig, wallet }) {
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const [bookDetails, setBookDetails] = useState({});
+
+
+
+  // useEffect(() => {
+  //   // TODO: don't just fetch once; subscribe!
+  //   contract.getMessages().then(setMessages);
+  // }, []);
+
   return (
     <div className="App">
       <Header />
@@ -21,8 +29,10 @@ function App() {
               <Homepage />
             </BookDetailsContext.Provider>
           </ItemBackdropContext.Provider>} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/library" element={<Library />} />
+        <Route path="/signin"
+          element={<SignIn nearConfig={nearConfig} wallet={wallet} currentUser={currentUser} />} />
+        <Route path="/library"
+          element={<Library />} />
       </Routes>
     </div>
   );
