@@ -1,23 +1,47 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
 import { BookDetailsContext } from "../context/BookDetailsContext";
+import { LibraryContext } from "../context/LibraryContext";
 
-function BookDetails() {
+function BookDetails({ contract }) {
   const [categories, setCategories] = useState("");
+  const [submitValue, setSubmitValue] = useState(null);
   const { bookDetails } = useContext(BookDetailsContext);
+  const { library, setLibrary } = useContext(LibraryContext);
+
+  useEffect(() => {
+    contract.getBooks().then(setLibrary);
+  }, []);
 
   const handleChange = (event) => {
     setCategories(event.target.value);
   };
 
+  const handleSubmit = () => {
+    setSubmitValue(categories);
+    contract
+      .addBook({
+        title: bookDetails.title,
+        description: bookDetails.description,
+        status: submitValue,
+        image: bookDetails.book_image,
+      })
+      .then(() => {
+        contract.getBooks().then((books) => {
+          setLibrary((prevState) => ({ ...prevState, books }));
+        });
+      });
+  };
+  console.log(library);
+
   return (
     <Container>
       <Typography variant="h2">
-        {categories && "Added To : " + categories}
+        {submitValue && "Added To : " + submitValue}
       </Typography>
       <img
         className="image"
@@ -55,7 +79,12 @@ function BookDetails() {
           <MenuItem value={"Read"}>Read</MenuItem>
           <MenuItem value={"Finished"}>Finished</MenuItem>
         </Select>
-        <Button className="button" variant="contained" color="success">
+        <Button
+          onClick={handleSubmit}
+          className="button"
+          variant="contained"
+          color="success"
+        >
           Smart Contract
         </Button>
       </div>

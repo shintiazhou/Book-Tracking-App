@@ -7,18 +7,14 @@ import Homepage from "./pages/Homepage"
 import { Routes, Route } from "react-router-dom"
 import { ItemBackdropContext } from "./context/ItemBackdropContext"
 import { BookDetailsContext } from "./context/BookDetailsContext"
+import { LibraryContext } from "./context/LibraryContext"
 
 function App({ contract, currentUser, nearConfig, wallet }) {
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const [bookDetails, setBookDetails] = useState({});
+  const [library, setLibrary] = useState([]);
 
-
-
-  // useEffect(() => {
-  //   // TODO: don't just fetch once; subscribe!
-  //   contract.getMessages().then(setMessages);
-  // }, []);
-
+  console.log(contract)
   return (
     <div className="App">
       <Header />
@@ -26,7 +22,9 @@ function App({ contract, currentUser, nearConfig, wallet }) {
         <Route exact path="/" element={
           <ItemBackdropContext.Provider value={{ openBackdrop, setOpenBackdrop }}>
             <BookDetailsContext.Provider value={{ bookDetails, setBookDetails }}>
-              <Homepage />
+              <LibraryContext.Provider value={{ library, setLibrary }}>
+                <Homepage contract={contract} />
+              </LibraryContext.Provider>
             </BookDetailsContext.Provider>
           </ItemBackdropContext.Provider>} />
         <Route path="/signin"

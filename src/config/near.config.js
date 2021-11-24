@@ -1,4 +1,4 @@
-const CONTRACT_NAME = process.env.CONTRACT_NAME || 'shintia.testnet'
+const CONTRACT_NAME = process.env.CONTRACT_NAME
 
 export const getConfig = (env) => {
     switch (env) {
@@ -57,3 +57,5 @@ export const getConfig = (env) => {
             throw Error(`Unconfigured environment '${env}'. Can be configured in src/config.js.`);
     }
 }
+
+

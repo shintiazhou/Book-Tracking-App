@@ -7,7 +7,7 @@ import Backdrop from "@mui/material/Backdrop";
 import { ItemBackdropContext } from "../context/ItemBackdropContext";
 import { BookDetailsContext } from "../context/BookDetailsContext";
 
-const Homepage = () => {
+const Homepage = ({ contract }) => {
   const { openBackdrop, setOpenBackdrop } = useContext(ItemBackdropContext);
 
   const { bookDetails, setBookDetails } = useContext(BookDetailsContext);
@@ -29,7 +29,7 @@ const Homepage = () => {
           open={openBackdrop}
           onClick={handleClose}
         >
-          <BookDetails />
+          <BookDetails contract={contract} />
         </Backdrop>
       )}
     </Container>
