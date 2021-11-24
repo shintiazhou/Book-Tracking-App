@@ -5,13 +5,16 @@ import { styled } from "@mui/material/styles";
 import BookDetails from "../components/BookDetails";
 import Backdrop from "@mui/material/Backdrop";
 import { ItemBackdropContext } from "../context/ItemBackdropContext";
+import { BookDetailsContext } from "../context/BookDetailsContext";
 
 const Homepage = () => {
-  // backdrop in homepage
   const { openBackdrop, setOpenBackdrop } = useContext(ItemBackdropContext);
-  // handle backdrop close
+
+  const { bookDetails, setBookDetails } = useContext(BookDetailsContext);
+
   const handleClose = (e) => {
-    e.target.className.includes("MuiBackdrop-root") && setOpenBackdrop(false);
+    e.target.className.includes("Backdrop") && setOpenBackdrop(false);
+    e.target.className.includes("Backdrop") && setBookDetails(null);
   };
 
   return (
@@ -20,13 +23,15 @@ const Homepage = () => {
         The New York Times Best Sellers
       </Typography>
       <ListNames />
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={openBackdrop}
-        onClick={handleClose}
-      >
-        <BookDetails />
-      </Backdrop>
+      {bookDetails && (
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={openBackdrop}
+          onClick={handleClose}
+        >
+          <BookDetails />
+        </Backdrop>
+      )}
     </Container>
   );
 };

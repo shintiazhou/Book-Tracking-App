@@ -27,7 +27,11 @@ const theme = createTheme({
     },
     h3: {
       fontWeight: "600",
-      fontSize: "1rem"
+      fontSize: "1rem",
+    },
+    p: {
+      margin: "5px 0",
+      fontSize: ".9rem",
     },
     button: {
       fontWeight: "500",

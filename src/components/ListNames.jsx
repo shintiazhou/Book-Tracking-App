@@ -27,9 +27,9 @@ function ListNames() {
   return (
     <Container>
       {ListNames ? (
-        ListNames.map((list, i) => {
+        ListNames.map((list) => {
           return (
-            <div key={i}>
+            <div key={list.display_name}>
               <Typography variant="h2" className="listName">
                 {list.display_name}
               </Typography>

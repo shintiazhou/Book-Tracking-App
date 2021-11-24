@@ -5,10 +5,9 @@ import useEmblaCarousel from "embla-carousel-react";
 import CircularProgress from "@mui/material/CircularProgress";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
-import { BookListContext } from "../context/BookListContext";
 
 function ListItems(props) {
-  const { bookList, setBookList } = useContext(BookListContext);
+  const [bookList, setBookList] = useState(null);
   const [isError, setIsError] = useState(false);
 
   // some carousel settings
@@ -16,23 +15,19 @@ function ListItems(props) {
     dragFree: true,
     containScroll: "trimSnaps",
   });
-  let list = {};
+
   useEffect(() => {
     //get list items based on names/type
 
     const getListItems = async () => {
       await axiosInstance()
         .get(`${props.list_name_encoded}.json`)
-        .then(res => setBookList((prevState) => ({
-           ...prevState, 
-           res.data.results.list_name : res.data.results.books
-          })))
+        .then((res) => setBookList(res.data.results.books))
         .catch((err) => console.log(err.message));
     };
     bookList && setIsError(false);
     getListItems();
-    
-  }, [list, props.list_name_encoded]);
+  }, [props.list_name_encoded]);
 
   //add set timeout to show error
   setTimeout(() => {
@@ -44,8 +39,14 @@ function ListItems(props) {
       <div className="embla__viewport" ref={bookList ? viewportRef : null}>
         <div className="carousel">
           {bookList ? (
-            bookList.map((bookList, i) => {
-              return <BookItem key={i} object={bookList} />;
+            bookList.map((bookList) => {
+              return (
+                <BookItem
+                  list_name_encoded={props.list_name_encoded}
+                  key={bookList.title}
+                  object={bookList}
+                />
+              );
             })
           ) : isError ? (
             <Typography variant="h3" className="error">

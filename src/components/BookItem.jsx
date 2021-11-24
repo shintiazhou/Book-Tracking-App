@@ -2,13 +2,16 @@ import React, { useContext, useState } from "react";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import { ItemBackdropContext } from "../context/ItemBackdropContext";
+import { BookDetailsContext } from "../context/BookDetailsContext";
 
 function BookItems(props) {
   const { setOpenBackdrop } = useContext(ItemBackdropContext);
+  const { setBookDetails } = useContext(BookDetailsContext);
   const [mouseMoving, setMouseMoving] = useState(false);
 
   const handleClick = () => {
     !mouseMoving && setOpenBackdrop(true);
+    setBookDetails(props.object);
   };
   const handleMove = () => {
     setMouseMoving(true);

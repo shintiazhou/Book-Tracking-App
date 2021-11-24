@@ -6,24 +6,21 @@ import Login from "./pages/Login"
 import Homepage from "./pages/Homepage"
 import { Routes, Route } from "react-router-dom"
 import { ItemBackdropContext } from "./context/ItemBackdropContext"
-import { BookListContext } from "./context/BookListContext"
+import { BookDetailsContext } from "./context/BookDetailsContext"
 
 function App() {
   const [openBackdrop, setOpenBackdrop] = useState(false);
-  const [bookList, setBookList] = useState({});
-
+  const [bookDetails, setBookDetails] = useState({});
   return (
     <div className="App">
       <Header />
       <Routes>
         <Route exact path="/" element={
           <ItemBackdropContext.Provider value={{ openBackdrop, setOpenBackdrop }}>
-            <BookListContext.Provider value={{ bookList, setBookList }}>
+            <BookDetailsContext.Provider value={{ bookDetails, setBookDetails }}>
               <Homepage />
-            </BookListContext.Provider>
-          </ItemBackdropContext.Provider>
-
-        } />
+            </BookDetailsContext.Provider>
+          </ItemBackdropContext.Provider>} />
         <Route path="/login" element={<Login />} />
         <Route path="/library" element={<Library />} />
       </Routes>

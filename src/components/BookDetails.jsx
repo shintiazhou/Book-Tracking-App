@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { styled } from "@mui/material/styles";
 import MenuItem from "@mui/material/MenuItem";
+import Typography from "@mui/material/Typography";
 import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
+import { BookDetailsContext } from "../context/BookDetailsContext";
+
 function BookDetails() {
   const [categories, setCategories] = useState("");
+  const { bookDetails } = useContext(BookDetailsContext);
 
   const handleChange = (event) => {
     setCategories(event.target.value);
@@ -12,14 +16,23 @@ function BookDetails() {
 
   return (
     <Container>
-      <div>
-        <h2>{categories}</h2>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Totam error
-        quia harum explicabo debitis, molestias laudantium voluptates ipsam
-        possimus earum aliquid vitae! Nihil doloribus totam nam enim distinctio
-        debitis voluptate, minima repellat nobis consectetur quod eveniet. Minus
-        labore voluptas possimus consequuntur illum, dolores non omnis atque
-        officiis modi voluptatem natus!
+      <Typography variant="h2">
+        {categories && "Added To : " + categories}
+      </Typography>
+      <img
+        className="image"
+        width="50%"
+        src={
+          bookDetails.book_image
+            ? bookDetails.book_image
+            : "https://i.ibb.co/cCPcChn/image-loading.gif"
+        }
+        alt={bookDetails.title}
+      />
+      <div className="caption">
+        <Typography variant="h3">{bookDetails.title}</Typography>
+        <Typography variant="span">{bookDetails.author}</Typography>
+        <Typography variant="p">{bookDetails.description}</Typography>
       </div>
       <div className="selectBar">
         <div className="add">
@@ -57,11 +70,20 @@ const Container = styled("div")(({ theme }) => ({
   justifyContent: "space-between",
   color: "black",
   borderRadius: "35px",
-  padding: "40px 20px",
+  padding: "10px 20px 30px 20px",
   maxWidth: "85%",
-  height: "370px",
   backgroundColor: "#ecf3f4",
-
+  ".caption": {
+    padding: "0 10px",
+    margin: "15px 0",
+    textAlign: "center",
+    display: "flex",
+    flexDirection: "column",
+  },
+  h2: {
+    padding: "15px 0",
+  },
+  ".image": {},
   [theme.breakpoints.up("sm")]: {
     maxWidth: "70%",
   },
@@ -75,6 +97,7 @@ const Container = styled("div")(({ theme }) => ({
     borderRadius: "15px",
     color: "white",
     width: "50%",
+    padding: 0,
   },
   ".selectBar": {
     paddingLeft: "12px",
