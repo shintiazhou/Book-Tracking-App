@@ -4,10 +4,12 @@ import ListNames from "../components/ListNames";
 import { styled } from "@mui/material/styles";
 import BookDetails from "../components/BookDetails";
 import Backdrop from "@mui/material/Backdrop";
-import { BookItemContext } from "../context/BookItemContext";
+import { ItemBackdropContext } from "../context/ItemBackdropContext";
 
 const Homepage = () => {
-  const { openBackdrop, setOpenBackdrop } = useContext(BookItemContext);
+  // backdrop in homepage
+  const { openBackdrop, setOpenBackdrop } = useContext(ItemBackdropContext);
+  // handle backdrop close
   const handleClose = (e) => {
     e.target.className.includes("MuiBackdrop-root") && setOpenBackdrop(false);
   };

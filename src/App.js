@@ -5,18 +5,23 @@ import Library from "./pages/Library"
 import Login from "./pages/Login"
 import Homepage from "./pages/Homepage"
 import { Routes, Route } from "react-router-dom"
-import { BookItemContext } from "./context/BookItemContext"
+import { ItemBackdropContext } from "./context/ItemBackdropContext"
+import { BookListContext } from "./context/BookListContext"
 
 function App() {
   const [openBackdrop, setOpenBackdrop] = useState(false);
+  const [bookList, setBookList] = useState({});
+
   return (
     <div className="App">
       <Header />
       <Routes>
         <Route exact path="/" element={
-          <BookItemContext.Provider value={{ openBackdrop, setOpenBackdrop }}>
-            <Homepage />
-          </BookItemContext.Provider>
+          <ItemBackdropContext.Provider value={{ openBackdrop, setOpenBackdrop }}>
+            <BookListContext.Provider value={{ bookList, setBookList }}>
+              <Homepage />
+            </BookListContext.Provider>
+          </ItemBackdropContext.Provider>
 
         } />
         <Route path="/login" element={<Login />} />

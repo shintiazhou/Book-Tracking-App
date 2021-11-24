@@ -1,43 +1,50 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axiosInstance from "../config/api";
 import BookItem from "./BookItem";
 import useEmblaCarousel from "embla-carousel-react";
 import CircularProgress from "@mui/material/CircularProgress";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
+import { BookListContext } from "../context/BookListContext";
 
 function ListItems(props) {
-  const [data, setData] = useState(null);
+  const { bookList, setBookList } = useContext(BookListContext);
   const [isError, setIsError] = useState(false);
+
+  // some carousel settings
   const [viewportRef] = useEmblaCarousel({
     dragFree: true,
     containScroll: "trimSnaps",
   });
-
+  let list = {};
   useEffect(() => {
     //get list items based on names/type
+
     const getListItems = async () => {
       await axiosInstance()
         .get(`${props.list_name_encoded}.json`)
-        .then((res) => setData(res.data.results.books))
+        .then(res => setBookList((prevState) => ({
+           ...prevState, 
+           res.data.results.list_name : res.data.results.books
+          })))
         .catch((err) => console.log(err.message));
     };
-    data && setIsError(false);
+    bookList && setIsError(false);
     getListItems();
-  }, [data, props.list_name_encoded]);
+    
+  }, [list, props.list_name_encoded]);
 
-  console.log(data);
-
+  //add set timeout to show error
   setTimeout(() => {
-    !data && setIsError(true);
+    !bookList && setIsError(true);
   }, 3000);
 
   return (
     <Container>
-      <div className="embla__viewport" ref={data ? viewportRef : null}>
+      <div className="embla__viewport" ref={bookList ? viewportRef : null}>
         <div className="carousel">
-          {data ? (
-            data.map((bookList, i) => {
+          {bookList ? (
+            bookList.map((bookList, i) => {
               return <BookItem key={i} object={bookList} />;
             })
           ) : isError ? (

@@ -11,9 +11,10 @@ export default function MenuAppBar() {
     <Container>
       <AppBar position="fixed" color="primary">
         <Toolbar>
-          <Link to="/" className="title">
-            HOME
-          </Link>
+          <div className="title">
+            <Link to="/">HOME</Link>
+          </div>
+
           <Link to="/library">
             <IconButton>
               <LibraryBooksIcon className="library" />

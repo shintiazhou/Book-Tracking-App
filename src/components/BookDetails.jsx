@@ -1,14 +1,15 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-
+import Button from "@mui/material/Button";
 function BookDetails() {
   const [categories, setCategories] = useState("");
 
   const handleChange = (event) => {
     setCategories(event.target.value);
   };
+
   return (
     <Container>
       <div>
@@ -26,7 +27,6 @@ function BookDetails() {
         </div>
         <Select
           className="select"
-          autoWidth="false"
           onChange={handleChange}
           variant="standard"
           defaultValue={"Reading-List"}
@@ -42,7 +42,9 @@ function BookDetails() {
           <MenuItem value={"Read"}>Read</MenuItem>
           <MenuItem value={"Finished"}>Finished</MenuItem>
         </Select>
-        <button>Smart Contract</button>
+        <Button className="button" variant="contained" color="success">
+          Smart Contract
+        </Button>
       </div>
     </Container>
   );
@@ -69,9 +71,13 @@ const Container = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("lg")]: {
     maxWidth: "30%",
   },
-
+  ".button": {
+    borderRadius: "15px",
+    color: "white",
+    width: "50%",
+  },
   ".selectBar": {
-    padding: "0 12px",
+    paddingLeft: "12px",
     borderRadius: "15px",
     display: "flex",
     justifyContent: "space-between",
@@ -90,6 +96,7 @@ const Container = styled("div")(({ theme }) => ({
     },
 
     ".select": {
+      fontSize: ".9rem",
       height: "70%",
       width: "50%",
       margin: "auto",

@@ -28,6 +28,14 @@ const theme = createTheme({
     h3: {
       fontWeight: "600",
       fontSize: "1rem"
+    },
+    button: {
+      fontWeight: "500",
+      fontSize: ".7rem"
+    },
+    select: {
+      fontWeight: "500",
+      fontSize: ".7rem"
     }
   },
   breakpoints: {

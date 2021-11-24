@@ -19,8 +19,7 @@ function ListNames() {
           setErrorMessage(null);
         })
         .catch((err) => {
-          console.log(err.message);
-          setErrorMessage(err.message);
+          err.message.includes("429") && setErrorMessage(err.message);
         });
     };
     getListNames();

@@ -1,24 +1,33 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
-import { BookItemContext } from "../context/BookItemContext";
+import { ItemBackdropContext } from "../context/ItemBackdropContext";
 
 function BookItems(props) {
-  const { setOpenBackdrop, openBackdrop } = useContext(BookItemContext);
+  const { setOpenBackdrop } = useContext(ItemBackdropContext);
+  const [mouseMoving, setMouseMoving] = useState(false);
 
   const handleClick = () => {
-    setOpenBackdrop(true);
+    !mouseMoving && setOpenBackdrop(true);
+  };
+  const handleMove = () => {
+    setMouseMoving(true);
+    setTimeout(() => setMouseMoving(false), 50);
   };
 
   return (
     <Container>
-      <div className="inner" onClick={handleClick}>
+      <div className="inner" onClick={handleClick} onMouseMove={handleMove}>
         <div className="imageContainer">
           <div className="overlay"></div>
           <img
             height="100%"
             width="100%"
-            src={props.object.book_image}
+            src={
+              props.object.book_image
+                ? props.object.book_image
+                : "https://i.ibb.co/cCPcChn/image-loading.gif"
+            }
             alt={props.object.title}
           />
         </div>
