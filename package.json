@@ -21,7 +21,7 @@
   },
   "scripts": {
     "start": "near dev-deploy && react-scripts start",
-    "build:contract": "(cd contract && ./build.sh)",
+    "build:contract": "./build.sh",
     "build": "yarn build:contract && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
