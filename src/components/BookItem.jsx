@@ -29,6 +29,8 @@ function BookItems(props) {
             src={
               props.object.book_image
                 ? props.object.book_image
+                : props.object.image
+                ? props.object.image
                 : "https://i.ibb.co/cCPcChn/image-loading.gif"
             }
             alt={props.object.title}
