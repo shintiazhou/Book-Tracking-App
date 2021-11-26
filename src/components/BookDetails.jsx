@@ -6,42 +6,76 @@ import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
 import { BookDetailsContext } from "../context/BookDetailsContext";
 import { LibraryContext } from "../context/LibraryContext";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import "regenerator-runtime/runtime";
 
-function BookDetails({ contract }) {
-  const [categories, setCategories] = useState("");
-  const [submitValue, setSubmitValue] = useState(null);
+function BookDetails({ contract, currentUser }) {
+  const [categories, setCategories] = useState("List");
   const { bookDetails } = useContext(BookDetailsContext);
   const { library, setLibrary } = useContext(LibraryContext);
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    contract.getBooks().then(setLibrary);
-  }, []);
+  let addedToBookList =
+    library && library.find((v) => v.title === bookDetails.title);
 
   const handleChange = (event) => {
     setCategories(event.target.value);
   };
-
-  const handleSubmit = () => {
-    setSubmitValue(categories);
-    contract
-      .addBook({
-        title: bookDetails.title,
-        description: bookDetails.description,
-        status: submitValue,
-        image: bookDetails.book_image,
-      })
-      .then(() => {
-        contract.getBooks().then((books) => {
-          setLibrary((prevState) => ({ ...prevState, books }));
-        });
-      });
-  };
   console.log(library);
+
+  const handleSubmit = async () => {
+    if (currentUser) {
+      if (addedToBookList) {
+        setIsLoading(true);
+        await contract
+          .delete_book({
+            book_id: addedToBookList.book_id.toString(),
+          })
+          .then(() =>
+            contract
+              .get_books({
+                account_id: currentUser.accountId,
+                skip: 0,
+                limit: Infinity,
+              })
+              .then((books) => setLibrary(books))
+          );
+        setIsLoading(false);
+        console.log(library);
+        // await contract
+        //   .add_book({
+        //     book: {
+        //       title: bookDetails.title,
+        //       description: bookDetails.description,
+        //       status: categories,
+        //       image: bookDetails.book_image,
+        //     },
+        //   })
+        //   .then((res) => console.log(res))
+        //   .catch((err) => console.log(err));
+        // setIsLoading(false);
+      }
+      // else if (addedToBookList) {
+      //   setIsLoading(true);
+      //   await contract
+      //     .update_book({
+      //       book_id: addedToBookList.book_id,
+      //       status: categories,
+      //     })
+      //     .then((res) => console.log(res))
+      //     .catch((err) => console.log(err));
+      //   setIsLoading(false);
+      // } else {
+      //   alert("login first");
+      // }
+    }
+  };
 
   return (
     <Container>
       <Typography variant="h2">
-        {submitValue && "Added To : " + submitValue}
+        {addedToBookList && "Added To : " + addedToBookList.status}
       </Typography>
       <img
         className="image"
@@ -49,6 +83,8 @@ function BookDetails({ contract }) {
         src={
           bookDetails.book_image
             ? bookDetails.book_image
+            : bookDetails.image
+            ? bookDetails.image
             : "https://i.ibb.co/cCPcChn/image-loading.gif"
         }
         alt={bookDetails.title}
@@ -66,15 +102,15 @@ function BookDetails({ contract }) {
           className="select"
           onChange={handleChange}
           variant="standard"
-          defaultValue={"Reading-List"}
+          defaultValue={"List"}
         >
           <MenuItem
             style={{
               width: "270px",
             }}
-            value={"Reading-List"}
+            value={"List"}
           >
-            Reading List
+            List
           </MenuItem>
           <MenuItem value={"Read"}>Read</MenuItem>
           <MenuItem value={"Finished"}>Finished</MenuItem>
@@ -88,6 +124,12 @@ function BookDetails({ contract }) {
           Smart Contract
         </Button>
       </div>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 2 }}
+        open={isLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Container>
   );
 }

@@ -7,7 +7,7 @@ import * as nearAPI from 'near-api-js';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom"
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
+import "regenerator-runtime/runtime";
 
 async function initContract() {
 
@@ -29,14 +29,13 @@ async function initContract() {
       balance: (await walletConnection.account().state()).amount,
     };
   }
-
   const contract = await new nearAPI.Contract(
 
     walletConnection.account(),
     nearConfig.contractName,
     {
-      viewMethods: ["getBook", "getBooks"],
-      changeMethods: ["addBook", "updateBook", "deleteBook"],
+      viewMethods: ["get_book", "get_books"],
+      changeMethods: ["add_book", "update_book", "delete_book"],
       sender: walletConnection.getAccountId(),
     }
   );

@@ -8,7 +8,6 @@ function SignIn(props) {
       "NEAR Guest Book"
     );
   };
-  console.log(props.currentUser);
   const handleSignOut = () => {
     props.wallet.signOut();
     window.location.replace(window.location.origin + window.location.pathname);

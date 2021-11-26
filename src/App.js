@@ -8,13 +8,34 @@ import { Routes, Route } from "react-router-dom"
 import { ItemBackdropContext } from "./context/ItemBackdropContext"
 import { BookDetailsContext } from "./context/BookDetailsContext"
 import { LibraryContext } from "./context/LibraryContext"
+import BookDetails from "./components/BookDetails";
+import Backdrop from "@mui/material/Backdrop";
+
 
 function App({ contract, currentUser, nearConfig, wallet }) {
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const [bookDetails, setBookDetails] = useState({});
   const [library, setLibrary] = useState([]);
 
-  console.log(contract)
+
+  const handleClose = (e) => {
+    e.target.className.includes("Backdrop") && setOpenBackdrop(false);
+    e.target.className.includes("Backdrop") && setBookDetails(null);
+  };
+
+
+  useEffect(() => {
+    if (currentUser) {
+      contract
+        .get_books({
+          account_id: currentUser.accountId,
+          skip: 0,
+          limit: Infinity,
+        })
+        .then((books) => setLibrary(books));
+    }
+  }, []);
+
   return (
     <div className="App">
       <Header />
@@ -23,7 +44,7 @@ function App({ contract, currentUser, nearConfig, wallet }) {
           <ItemBackdropContext.Provider value={{ openBackdrop, setOpenBackdrop }}>
             <BookDetailsContext.Provider value={{ bookDetails, setBookDetails }}>
               <LibraryContext.Provider value={{ library, setLibrary }}>
-                <Homepage contract={contract} />
+                <Homepage contract={contract} currentUser={currentUser} />
               </LibraryContext.Provider>
             </BookDetailsContext.Provider>
           </ItemBackdropContext.Provider>} />
