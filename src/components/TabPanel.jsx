@@ -1,19 +1,18 @@
 import React, { useContext } from "react";
 import { LibraryContext } from "../context/LibraryContext";
 import { styled } from "@mui/material/styles";
+import Grid from "@mui/material/Grid";
 
 import BookItem from "./BookItem";
 function TabPanel(props) {
   const { library } = useContext(LibraryContext);
   const { children, value, index, ...other } = props;
 
-  let object = library.filter(
-    (v) =>
-      v.status === (index === 0 ? "List" : index === 1 ? "Read" : "Finished")
-  );
-  console.log(object);
+  let status = index === 0 ? "List" : index === 1 ? "Read" : "Finished";
+  let object = library && library.filter((v) => v.status === status);
+
   return (
-    <div
+    <Container
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
@@ -22,24 +21,25 @@ function TabPanel(props) {
     >
       {value === index && (
         <div sx={{ p: 3 }}>
-          <Container>
-            {object &&
+          <Grid container spacing={2}>
+            {!object.length == 0 ? (
               object.map((item) => {
                 return (
-                  <BookItem
-                    list_name_encoded={props.list_name_encoded}
-                    key={object.book_id}
-                    object={object}
-                  />
+                  <Grid item xs={6} md={3} lg={2}>
+                    <BookItem key={item.book_id} object={item} />
+                  </Grid>
                 );
-              })}
-          </Container>
+              })
+            ) : (
+              <div>this categories is empty start adding book to {status}</div>
+            )}
+          </Grid>
         </div>
       )}
-    </div>
+    </Container>
   );
 }
 const Container = styled("div")(({ theme }) => ({
-  display: "flex",
+  padding: "30px 0",
 }));
 export default TabPanel;

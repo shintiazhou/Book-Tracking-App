@@ -27,7 +27,7 @@ function Library() {
         centered
       >
         <Tab className="tab" label="List" {...a11yProps(0)} />
-        <Tab className="tab" label="Reading" {...a11yProps(1)} />
+        <Tab className="tab" label="Read" {...a11yProps(1)} />
         <Tab className="tab" label="Finished" {...a11yProps(2)} />
       </Tabs>
       <TabPanel value={value} index={0} />

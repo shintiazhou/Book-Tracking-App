@@ -11,18 +11,15 @@ import { LibraryContext } from "./context/LibraryContext"
 import BookDetails from "./components/BookDetails";
 import Backdrop from "@mui/material/Backdrop";
 
-
 function App({ contract, currentUser, nearConfig, wallet }) {
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const [bookDetails, setBookDetails] = useState({});
   const [library, setLibrary] = useState([]);
 
-
   const handleClose = (e) => {
     e.target.className.includes("Backdrop") && setOpenBackdrop(false);
     e.target.className.includes("Backdrop") && setBookDetails(null);
   };
-
 
   useEffect(() => {
     if (currentUser) {
@@ -34,6 +31,9 @@ function App({ contract, currentUser, nearConfig, wallet }) {
         })
         .then((books) => setLibrary(books));
     }
+    return () => {
+      setLibrary({})
+    };
   }, []);
 
   return (
@@ -50,9 +50,31 @@ function App({ contract, currentUser, nearConfig, wallet }) {
           </ItemBackdropContext.Provider>} />
         <Route path="/signin"
           element={<SignIn nearConfig={nearConfig} wallet={wallet} currentUser={currentUser} />} />
-        <Route path="/library"
-          element={<Library />} />
+        <Route exact path="/library" element={
+          <ItemBackdropContext.Provider value={{ openBackdrop, setOpenBackdrop }}>
+            <BookDetailsContext.Provider value={{ bookDetails, setBookDetails }}>
+              <LibraryContext.Provider value={{ library, setLibrary }}>
+                <Library contract={contract} currentUser={currentUser} />
+              </LibraryContext.Provider>
+            </BookDetailsContext.Provider>
+          </ItemBackdropContext.Provider>} />
       </Routes>
+      {bookDetails && (
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={openBackdrop}
+          onClick={handleClose}
+        >
+          <ItemBackdropContext.Provider value={{ openBackdrop, setOpenBackdrop }}>
+            <BookDetailsContext.Provider value={{ bookDetails, setBookDetails }}>
+              <LibraryContext.Provider value={{ library, setLibrary }}>
+                <BookDetails contract={contract} currentUser={currentUser} />
+              </LibraryContext.Provider>
+            </BookDetailsContext.Provider>
+          </ItemBackdropContext.Provider>
+
+        </Backdrop>
+      )}
     </div>
   );
 }

@@ -8,9 +8,11 @@ import { BookDetailsContext } from "../context/BookDetailsContext";
 import { LibraryContext } from "../context/LibraryContext";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+import { ItemBackdropContext } from "../context/ItemBackdropContext";
 import "regenerator-runtime/runtime";
 
 function BookDetails({ contract, currentUser }) {
+  const { setOpenBackdrop } = useContext(ItemBackdropContext);
   const [categories, setCategories] = useState("List");
   const { bookDetails } = useContext(BookDetailsContext);
   const { library, setLibrary } = useContext(LibraryContext);
@@ -19,18 +21,25 @@ function BookDetails({ contract, currentUser }) {
   let addedToBookList =
     library && library.find((v) => v.title === bookDetails.title);
 
+  const handleClose = () => {
+    setOpenBackdrop(false);
+  };
   const handleChange = (event) => {
     setCategories(event.target.value);
   };
-  console.log(library);
 
   const handleSubmit = async () => {
     if (currentUser) {
-      if (addedToBookList) {
+      if (!addedToBookList) {
         setIsLoading(true);
         await contract
-          .delete_book({
-            book_id: addedToBookList.book_id.toString(),
+          .add_book({
+            book: {
+              title: bookDetails.title,
+              description: bookDetails.description,
+              status: categories,
+              image: bookDetails.book_image,
+            },
           })
           .then(() =>
             contract
@@ -40,36 +49,50 @@ function BookDetails({ contract, currentUser }) {
                 limit: Infinity,
               })
               .then((books) => setLibrary(books))
+              .catch((err) => console.log(err))
           );
         setIsLoading(false);
-        console.log(library);
-        // await contract
-        //   .add_book({
-        //     book: {
-        //       title: bookDetails.title,
-        //       description: bookDetails.description,
-        //       status: categories,
-        //       image: bookDetails.book_image,
-        //     },
-        //   })
-        //   .then((res) => console.log(res))
-        //   .catch((err) => console.log(err));
-        // setIsLoading(false);
+      } else if (addedToBookList) {
+        setIsLoading(true);
+        await contract
+          .update_book({
+            book_id: addedToBookList.book_id,
+            status: categories,
+          })
+          .then(() =>
+            contract
+              .get_books({
+                account_id: currentUser.accountId,
+                skip: 0,
+                limit: Infinity,
+              })
+              .then((books) => setLibrary(books))
+          )
+          .catch((err) => console.log(err));
+        setIsLoading(false);
       }
-      // else if (addedToBookList) {
-      //   setIsLoading(true);
-      //   await contract
-      //     .update_book({
-      //       book_id: addedToBookList.book_id,
-      //       status: categories,
-      //     })
-      //     .then((res) => console.log(res))
-      //     .catch((err) => console.log(err));
-      //   setIsLoading(false);
-      // } else {
-      //   alert("login first");
-      // }
+    } else {
+      alert("login first");
     }
+  };
+  const handleDelete = async () => {
+    setIsLoading(true);
+    await contract
+      .delete_book({
+        book_id: addedToBookList.book_id,
+      })
+      .then(() =>
+        contract
+          .get_books({
+            account_id: currentUser.accountId,
+            skip: 0,
+            limit: Infinity,
+          })
+          .then((books) => setLibrary(books))
+      )
+      .then(() => handleClose())
+      .catch((err) => console.log(err));
+    setIsLoading(false);
   };
 
   return (
@@ -124,6 +147,16 @@ function BookDetails({ contract, currentUser }) {
           Smart Contract
         </Button>
       </div>
+      {addedToBookList && window.location.pathname === "/library" && (
+        <Button
+          onClick={handleDelete}
+          className="remove"
+          variant="contained"
+          color="error"
+        >
+          remove from {addedToBookList.status}
+        </Button>
+      )}
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 2 }}
         open={isLoading}
@@ -150,6 +183,9 @@ const Container = styled("div")(({ theme }) => ({
     textAlign: "center",
     display: "flex",
     flexDirection: "column",
+  },
+  ".remove": {
+    marginTop: "20px",
   },
   h2: {
     padding: "15px 0",
