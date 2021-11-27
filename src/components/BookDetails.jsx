@@ -26,8 +26,9 @@ function BookDetails(props) {
   const libraryContext = useContext(LibraryContext);
   const { library, setLibrary } = libraryContext;
 
-  let addedToBookList =
-    library.length !== 0 && library.find((v) => v.title === bookDetails.title);
+  let addedToBookList = library
+    ? library.length !== 0 && library.find((v) => v.title === bookDetails.title)
+    : null;
 
   const handleClose = () => {
     toggleBackdrop(false);
@@ -183,8 +184,9 @@ const Container = styled("div")(({ theme }) => ({
   color: "black",
   borderRadius: "35px",
   padding: "10px 20px 30px 20px",
-  maxWidth: "85%",
+  maxWidth: "90%",
   backgroundColor: "#ecf3f4",
+
   ".caption": {
     padding: "0 10px",
     margin: "15px 0",
@@ -213,6 +215,9 @@ const Container = styled("div")(({ theme }) => ({
     color: "white",
     width: "50%",
     padding: 0,
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "10px",
+    },
   },
   ".selectBar": {
     paddingLeft: "12px",
@@ -231,6 +236,9 @@ const Container = styled("div")(({ theme }) => ({
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
+      [theme.breakpoints.down("sm")]: {
+        fontSize: "12px",
+      },
     },
 
     ".select": {
