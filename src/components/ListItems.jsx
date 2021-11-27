@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import axiosInstance from "../config/api";
 import BookItem from "./BookItem";
 import useEmblaCarousel from "embla-carousel-react";
@@ -27,7 +27,7 @@ function ListItems(props) {
     };
     bookList && setIsError(false);
     getListItems();
-  }, [props.list_name_encoded]);
+  }, [props.list_name_encoded, bookList]);
 
   //add set timeout to show error
   setTimeout(() => {
@@ -66,10 +66,9 @@ const Container = styled("div")(({ theme }) => ({
   borderBottom: "1px solid rgba(255,255,255,.2)",
   paddingBottom: "20px",
   width: "100%",
-  overflow: "hidden",
+  overflowX: "hidden",
   ".carousel": {
     display: "flex",
-    justifyContent: "space-between",
     userSelect: "none",
     paddingRight: "-25px",
   },

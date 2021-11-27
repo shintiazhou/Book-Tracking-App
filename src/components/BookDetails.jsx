@@ -1,28 +1,36 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { styled } from "@mui/material/styles";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
-import { BookDetailsContext } from "../context/BookDetailsContext";
-import { LibraryContext } from "../context/LibraryContext";
+
+import BookDetailsContext from "../context/book-details/BookDetailsContext";
+import BackdropContext from "../context/backdrop/BackdropContext";
+import LibraryContext from "../context/library/LibraryContext";
+
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-import { ItemBackdropContext } from "../context/ItemBackdropContext";
-import "regenerator-runtime/runtime";
 
-function BookDetails({ contract, currentUser }) {
-  const { setOpenBackdrop } = useContext(ItemBackdropContext);
+function BookDetails(props) {
+  const { currentUser, contract } = props;
   const [categories, setCategories] = useState("List");
-  const { bookDetails } = useContext(BookDetailsContext);
-  const { library, setLibrary } = useContext(LibraryContext);
   const [isLoading, setIsLoading] = useState(false);
 
+  const backdropContext = useContext(BackdropContext);
+  const { toggleBackdrop } = backdropContext;
+
+  const bookDetailsContext = useContext(BookDetailsContext);
+  const { bookDetails } = bookDetailsContext;
+
+  const libraryContext = useContext(LibraryContext);
+  const { library, setLibrary } = libraryContext;
+
   let addedToBookList =
-    library && library.find((v) => v.title === bookDetails.title);
+    library.length !== 0 && library.find((v) => v.title === bookDetails.title);
 
   const handleClose = () => {
-    setOpenBackdrop(false);
+    toggleBackdrop(false);
   };
   const handleChange = (event) => {
     setCategories(event.target.value);
@@ -41,16 +49,16 @@ function BookDetails({ contract, currentUser }) {
               image: bookDetails.book_image,
             },
           })
-          .then(() =>
+          .then(() => {
             contract
               .get_books({
                 account_id: currentUser.accountId,
                 skip: 0,
-                limit: Infinity,
+                limit: 30,
               })
               .then((books) => setLibrary(books))
-              .catch((err) => console.log(err))
-          );
+              .catch((err) => console.log(err));
+          });
         setIsLoading(false);
       } else if (addedToBookList) {
         setIsLoading(true);
@@ -59,15 +67,15 @@ function BookDetails({ contract, currentUser }) {
             book_id: addedToBookList.book_id,
             status: categories,
           })
-          .then(() =>
+          .then(() => {
             contract
               .get_books({
                 account_id: currentUser.accountId,
                 skip: 0,
-                limit: Infinity,
+                limit: 30,
               })
-              .then((books) => setLibrary(books))
-          )
+              .then((books) => setLibrary(books));
+          })
           .catch((err) => console.log(err));
         setIsLoading(false);
       }
@@ -86,7 +94,7 @@ function BookDetails({ contract, currentUser }) {
           .get_books({
             account_id: currentUser.accountId,
             skip: 0,
-            limit: Infinity,
+            limit: 30,
           })
           .then((books) => setLibrary(books))
       )

@@ -39,6 +39,9 @@ function Library() {
 const Container = styled("div")(({ theme }) => ({
   ".tab": {
     color: "white",
+    [theme.breakpoints.up("sm")]: {
+      fontSize: "18px",
+    },
   },
 }));
 

@@ -1,14 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from "react-router-dom"
-
 import App from './App';
-import { initContract } from './utils/near-utils';
 import reportWebVitals from './reportWebVitals';
-
+import { initContract } from './utils/near.utils';
+// ---------------context----------
+import BookDetailsState from "./context/book-details/BookDetailsState"
+import BackdropState from "./context/backdrop/BackdropState"
+import LibraryState from "./context/library/LibraryState"
+// ---------------styles----------
 import './index.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
 
 window.nearInitPromise = initContract().then(
   ({ contract, currentUser, nearConfig, walletConnection }) => {
@@ -16,12 +18,18 @@ window.nearInitPromise = initContract().then(
       <React.StrictMode>
         <BrowserRouter>
           <ThemeProvider theme={theme}>
-            <App
-              contract={contract}
-              currentUser={currentUser}
-              nearConfig={nearConfig}
-              wallet={walletConnection}
-            />
+            <BackdropState>
+              <BookDetailsState>
+                <LibraryState>
+                  <App
+                    contract={contract}
+                    currentUser={currentUser}
+                    nearConfig={nearConfig}
+                    wallet={walletConnection}
+                  />
+                </LibraryState>
+              </BookDetailsState>
+            </BackdropState>
           </ThemeProvider>
         </BrowserRouter>
       </React.StrictMode>,
@@ -38,11 +46,14 @@ reportWebVitals();
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#465461",
+      main: "#1A0551",
     },
     secondary: {
       main: "#ecf3f4",
     },
+  },
+  background: {
+    default: "#222222"
   },
   typography: {
     fontFamily: '"Montserrat", sans-serif',

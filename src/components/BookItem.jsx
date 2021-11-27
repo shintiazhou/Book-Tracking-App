@@ -1,16 +1,33 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
-import { ItemBackdropContext } from "../context/ItemBackdropContext";
-import { BookDetailsContext } from "../context/BookDetailsContext";
+import BackdropContext from "../context/backdrop/BackdropContext";
+import BookDetailsContext from "../context/book-details/BookDetailsContext";
 
-function BookItems(props) {
-  const { setOpenBackdrop } = useContext(ItemBackdropContext);
-  const { setBookDetails } = useContext(BookDetailsContext);
+function BookItem(props) {
+  const backdropContext = useContext(BackdropContext);
+
+  const { toggleBackdrop } = backdropContext;
+
+  const bookDetailsContext = useContext(BookDetailsContext);
+  const { setBookDetails } = bookDetailsContext;
+
   const [mouseMoving, setMouseMoving] = useState(false);
+  const [thumb, setThumb] = useState(
+    "https://i.ibb.co/cCPcChn/image-loading.gif"
+  );
+
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      setThumb(
+        props.object.book_image ? props.object.book_image : props.object.image
+      );
+    }, 1000);
+    return () => clearTimeout(delay);
+  }, [props.object.book_image, props.object.image]);
 
   const handleClick = () => {
-    !mouseMoving && setOpenBackdrop(true);
+    !mouseMoving && toggleBackdrop(true);
     setBookDetails(props.object);
   };
   const handleMove = () => {
@@ -19,25 +36,24 @@ function BookItems(props) {
   };
 
   return (
-    <Container>
+    <Container style={{ paddingRight: !props.object.image && "30px" }}>
       <div className="inner" onClick={handleClick} onMouseMove={handleMove}>
         <div className="imageContainer">
           <div className="overlay"></div>
           <img
-            height="100%"
+            className="img"
             width="100%"
-            src={
-              props.object.book_image || props.object.image
-                ? props.object.book_image
-                  ? props.object.book_image
-                  : props.object.image
-                : "https://i.ibb.co/cCPcChn/image-loading.gif"
-            }
+            src={thumb}
             alt={props.object.title}
-          />
+          ></img>
         </div>
         <div className="caption">
-          <Typography variant="h3">{props.object.title}</Typography>
+          <Typography
+            variant="h3"
+            className={props.object.image && "align-center"}
+          >
+            {props.object.title}
+          </Typography>
           <Typography variant="span">{props.object.author}</Typography>
         </div>
       </div>
@@ -46,21 +62,30 @@ function BookItems(props) {
 }
 // -------------------------- styles-----------------------------
 const Container = styled("div")(({ theme }) => ({
-  minWidth: "50%",
+  minWidth: "60%",
+
   position: "relative",
-  paddingRight: "25px",
+
+  ".align-center": {
+    textAlign: "center",
+  },
   ".inner": {
-    overflow: "hidden",
-    height: "100%",
-    width: "100%",
     cursor: "pointer",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
+  ".img": {
+    borderRadius: "20px",
   },
   ".imageContainer": {
+    position: "relative",
     width: "100%",
-    height: "70%",
+    height: "60%",
   },
   ".overlay": {
-    backgroundColor: "#465461",
+    borderRadius: "20px",
+    backgroundColor: "black",
     position: "absolute",
     width: "100%",
     height: "100%",
@@ -71,18 +96,18 @@ const Container = styled("div")(({ theme }) => ({
     },
   },
   ".caption": {
-    margin: "10px 0",
-    paddingBottom: "20px",
+    justifySelf: "flex-end",
+    padding: "20px 0",
   },
   [theme.breakpoints.up("sm")]: {
-    minWidth: "30%",
+    minWidth: "50%",
   },
   [theme.breakpoints.up("md")]: {
-    minWidth: "20%",
+    minWidth: "25%",
   },
   [theme.breakpoints.up("lg")]: {
-    minWidth: "12%",
+    minWidth: "20%",
   },
 }));
 
-export default BookItems;
+export default BookItem;

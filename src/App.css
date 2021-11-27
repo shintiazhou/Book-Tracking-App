@@ -1,8 +1,17 @@
-body {
-  background-color: #465461;
+body,
+html {
+  background: linear-gradient(
+    -47.62deg,
+    rgba(61, 6, 95, 1) 0%,
+    rgba(18, 5, 78, 1) 100%,
+    rgba(16, 5, 77, 1) 100%
+  );
+  background-repeat: no-repeat;
 }
+
 .App {
-  background-color: #465461;
+  background: inherit;
+  height: 100vh;
   color: white;
   padding: 90px 8%;
   margin: 0 auto;
@@ -10,6 +19,7 @@ body {
   overflow-x: hidden;
   box-sizing: border-box;
 }
+
 .embla__viewport {
   overflow: hidden;
   width: 100%;

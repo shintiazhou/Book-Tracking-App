@@ -6,10 +6,10 @@ import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import IconButton from "@mui/material/IconButton";
 import { Link } from "react-router-dom";
 
-export default function MenuAppBar() {
+export default function MenuAppBar({ currentUser }) {
   return (
     <Container>
-      <AppBar position="fixed" color="primary">
+      <AppBar position="fixed" color="primary" className="appBar">
         <Toolbar>
           <div className="title">
             <Link to="/">HOME</Link>
@@ -20,7 +20,9 @@ export default function MenuAppBar() {
               <LibraryBooksIcon className="library" />
             </IconButton>
           </Link>
-          <Link to="/signin">SIGN IN</Link>
+          <Link to="/signin" className="sign-in">
+            {currentUser ? "PROFILE" : "SIGN IN"}
+          </Link>
         </Toolbar>
       </AppBar>
     </Container>
@@ -28,19 +30,35 @@ export default function MenuAppBar() {
 }
 // -------------------------- styles-----------------------------
 const Container = styled("div")(({ theme }) => ({
-  flexGrow: 1,
-  ".listName": {
-    padding: "20px 0",
+  display: "flex",
+  margin: "auto",
+  transition: "align-items 2s",
+  ".appBar": {
+    [theme.breakpoints.up("md")]: {
+      alignItems: "center",
+      fontSize: "16px",
+    },
   },
-  ".menuButton": {
+  ".sign-in": {
     marginRight: theme.spacing(2),
+    [theme.breakpoints.up("md")]: {
+      margin: "0 30px",
+    },
   },
   ".title": {
-    flexGrow: 1,
+    [theme.breakpoints.up("md")]: {
+      margin: "0 30px",
+    },
+    [theme.breakpoints.down("md")]: {
+      flexGrow: 1,
+    },
   },
   ".library": {
     color: "white",
     margin: "0 10px",
     justifyContent: "flex-end",
+    [theme.breakpoints.up("md")]: {
+      margin: "0 30px",
+    },
   },
 }));
