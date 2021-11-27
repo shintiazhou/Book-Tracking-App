@@ -11,26 +11,11 @@ function BookItem(props) {
 
   const bookDetailsContext = useContext(BookDetailsContext);
   const { setBookDetails } = bookDetailsContext;
-
-  const [mouseMoving, setMouseMoving] = useState(false);
   const [thumb, setThumb] = useState(
     "https://i.ibb.co/cCPcChn/image-loading.gif"
   );
 
-  const [device, setdevice] = useState("");
-
   useEffect(() => {
-    const ua = navigator.userAgent;
-    if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
-      setdevice("tablet");
-    } else if (
-      /Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(
-        ua
-      )
-    ) {
-      setdevice("mobile");
-    }
-    setdevice("desktop");
     const delay = setTimeout(() => {
       setThumb(
         props.object.book_image ? props.object.book_image : props.object.image
