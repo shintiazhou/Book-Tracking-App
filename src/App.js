@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, Navigate } from "react-router-dom"
 import './App.css';
 // ---------------components----------
 import Header from "./components/Header"
@@ -41,7 +41,7 @@ function App(props) {
         <Route exact path="/library" element={
           <Library contract={contract} currentUser={currentUser} />
         } />
-
+        <Route path="*" element={<Navigate replace to="/" />} />
       </Routes>
       {bookDetails && (
         <Backdrop
