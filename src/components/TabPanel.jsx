@@ -16,9 +16,9 @@ function TabPanel(props) {
 
   let status = index === 0 ? "List" : index === 1 ? "Read" : "Finished";
   let object =
-    library &&
-    library.length !== 0 &&
-    library.filter((v) => v.status === status);
+    library && library.length !== 0
+      ? library.filter((v) => v.status === status)
+      : null;
 
   return (
     <Container role="tabpanel" hidden={value !== index} {...other}>

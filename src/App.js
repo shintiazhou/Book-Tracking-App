@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useContext } from 'react'
 import { Routes, Route } from "react-router-dom"
 import './App.css';
 // ---------------components----------
@@ -11,7 +11,7 @@ import BookDetails from "./components/BookDetails";
 // ---------------context----------
 import BackdropContext from "./context/backdrop/BackdropContext";
 import BookDetailsContext from "./context/book-details/BookDetailsContext";
-import LibraryContext from "./context/library/LibraryContext";
+
 
 function App(props) {
   const { contract, currentUser, nearConfig, wallet } = props
@@ -21,24 +21,8 @@ function App(props) {
 
   const bookDetailsContext = useContext(BookDetailsContext);
   const { bookDetails, setBookDetails } = bookDetailsContext;
-  const libraryContext = useContext(LibraryContext);
 
-  useEffect(() => {
-    const { setLibrary } = libraryContext;
-    const { contract, currentUser } = props
-    if (currentUser) {
-      contract
-        .get_books({
-          account_id: currentUser.accountId,
-          skip: 0,
-          limit: 30,
-        })
-        .then((books) => setLibrary(books));
-    }
-    return () => {
-      setLibrary({})
-    };
-  }, []);
+
 
   const handleClose = (e) => {
     e.target.className.includes("Backdrop") && toggleBackdrop(false);

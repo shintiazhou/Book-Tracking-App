@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { styled } from "@mui/material/styles";
 import TabPanel from "../components/TabPanel";
+import LibraryContext from "../context/library/LibraryContext";
 
 function a11yProps(index) {
   return {
@@ -11,12 +12,31 @@ function a11yProps(index) {
   };
 }
 
-function Library() {
+function Library({ currentUser, contract }) {
   const [value, setValue] = useState(0);
 
+  const libraryContext = useContext(LibraryContext);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    const { setLibrary } = libraryContext;
+    if (currentUser) {
+      contract
+        .get_books({
+          account_id: currentUser.accountId,
+          skip: 0,
+          limit: 30,
+        })
+        .then((books) => setLibrary(books));
+    }
+    return () => {
+      setLibrary({});
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser, contract]);
+
   return (
     <Container>
       <Tabs
