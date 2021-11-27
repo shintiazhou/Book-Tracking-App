@@ -2,6 +2,8 @@
 
 [View Live Demo](https://book-tracking-sz.netlify.app/)
 
+Note: The book API has limited request, if error occurred please wait for a while
+
 code gets deployed to the NEAR blockchain when you run `yarn deploy:contract`. This sort of code-that-runs-on-a-blockchain is called a "smart contract"
 
 Both contract and client-side code will auto-reload as you change source files.
