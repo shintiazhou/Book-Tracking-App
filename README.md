@@ -4,9 +4,15 @@
 
 Note: The book API has limited request, if error occurred please wait for a while
 
+## Development Mode
+
 code gets deployed to the NEAR blockchain when you run `yarn deploy:contract`. This sort of code-that-runs-on-a-blockchain is called a "smart contract"
 
 Both contract and client-side code will auto-reload as you change source files.
+
+## Production Mode
+
+Build has problems (no override and no default toolchain set)
 
 ## Available Scripts
 
