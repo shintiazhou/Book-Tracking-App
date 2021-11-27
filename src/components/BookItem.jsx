@@ -17,7 +17,20 @@ function BookItem(props) {
     "https://i.ibb.co/cCPcChn/image-loading.gif"
   );
 
+  const [device, setdevice] = useState("");
+
   useEffect(() => {
+    const ua = navigator.userAgent;
+    if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+      setdevice("tablet");
+    } else if (
+      /Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(
+        ua
+      )
+    ) {
+      setdevice("mobile");
+    }
+    setdevice("desktop");
     const delay = setTimeout(() => {
       setThumb(
         props.object.book_image ? props.object.book_image : props.object.image
@@ -30,14 +43,17 @@ function BookItem(props) {
     !mouseMoving && toggleBackdrop(true);
     setBookDetails(props.object);
   };
-  const handleMove = () => {
+  const handleMove = (e) => {
     setMouseMoving(true);
-    setTimeout(() => setMouseMoving(false), 50);
+    setTimeout(() => setMouseMoving(false), 100);
   };
-
   return (
     <Container style={{ paddingRight: !props.object.image && "30px" }}>
-      <div className="inner" onClick={handleClick} onMouseMove={handleMove}>
+      <div
+        className="inner"
+        onClick={handleClick}
+        onMouseMove={device === "desktop" && handleMove}
+      >
         <div className="imageContainer">
           <div className="overlay"></div>
           <img
