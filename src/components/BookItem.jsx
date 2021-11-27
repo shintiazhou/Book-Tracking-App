@@ -37,7 +37,7 @@ function BookItem(props) {
 
   return (
     <Container style={{ paddingRight: !props.object.image && "30px" }}>
-      <div className="inner" onClick={handleClick}>
+      <div className="inner" onClick={handleClick} onMouseMove={handleMove}>
         <div className="imageContainer">
           <div className="overlay"></div>
           <img
