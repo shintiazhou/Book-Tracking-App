@@ -40,20 +40,12 @@ function BookItem(props) {
   }, [props.object.book_image, props.object.image]);
 
   const handleClick = () => {
-    !mouseMoving && toggleBackdrop(true);
+    toggleBackdrop(true);
     setBookDetails(props.object);
-  };
-  const handleMove = (e) => {
-    setMouseMoving(true);
-    setTimeout(() => setMouseMoving(false), 100);
   };
   return (
     <Container style={{ paddingRight: !props.object.image && "30px" }}>
-      <div
-        className="inner"
-        onClick={handleClick}
-        onMouseMove={device === "desktop" && handleMove}
-      >
+      <div className="inner" onClick={handleClick}>
         <div className="imageContainer">
           <div className="overlay"></div>
           <img
