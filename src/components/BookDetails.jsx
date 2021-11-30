@@ -26,9 +26,12 @@ function BookDetails(props) {
   const libraryContext = useContext(LibraryContext);
   const { library, setLibrary } = libraryContext;
 
-  let addedToBookList = library
-    ? library.length !== 0 && library.find((v) => v.title === bookDetails.title)
-    : null;
+  let addedToBookList =
+    Array.isArray(library) && library.length
+      ? library.find((v) => v.title === bookDetails.title)
+      : null;
+  console.log(library);
+  console.log(library.length !== 0);
 
   const handleClose = () => {
     toggleBackdrop(false);
@@ -97,7 +100,10 @@ function BookDetails(props) {
             skip: 0,
             limit: 30,
           })
-          .then((books) => setLibrary(books))
+          .then((books) => {
+            setLibrary(books);
+            console.log(books);
+          })
       )
       .then(() => handleClose())
       .catch((err) => console.log(err));

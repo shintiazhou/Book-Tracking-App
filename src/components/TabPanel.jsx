@@ -11,14 +11,15 @@ import BookItem from "./BookItem";
 function TabPanel(props) {
   const libraryContext = useContext(LibraryContext);
   const { library } = libraryContext;
-
   const { children, value, index, ...other } = props;
 
-  let status = index === 0 ? "List" : index === 1 ? "Read" : "Finished";
-  let object =
-    library && library.length !== 0
+  const status = index === 0 ? "List" : index === 1 ? "Read" : "Finished";
+  const object =
+    Array.isArray(library) && library.length
       ? library.filter((v) => v.status === status)
       : null;
+
+  console.log(library);
 
   return (
     <Container role="tabpanel" hidden={value !== index} {...other}>

@@ -33,16 +33,21 @@ function App(props) {
     <div className="App">
       <Header currentUser={currentUser} />
       <Routes>
+
         <Route exact path="/" element={
           <Homepage contract={contract} currentUser={currentUser} />
         } />
+
         <Route path="/signin"
           element={<SignIn nearConfig={nearConfig} wallet={wallet} currentUser={currentUser} />} />
+
+
         <Route exact path="/library" element={
           <Library contract={contract} currentUser={currentUser} />
         } />
         <Route path="*" element={<Navigate replace to="/" />} />
       </Routes>
+
       {bookDetails && (
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
